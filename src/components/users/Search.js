@@ -9,14 +9,18 @@ import PropTypes from 'prop-types';
      static propTypes={
          searchUser:PropTypes.func.isRequired,
          clearUsers: PropTypes.func.isRequired,
-         showClear:PropTypes.bool.isRequired
+         showClear:PropTypes.bool.isRequired,
+         setAlert:PropTypes.func.isRequired
      }
 
      onSubmit = (e) => {
         e.preventDefault();
-        console.log (e);
-        this.props.searchUsers(this.state.username);
-        this.setState({username:''});
+        if(this.state.username === ''){
+            this.props.setAlert('Please enter the name ','light');
+        }else {
+            this.props.searchUsers(this.state.username);
+            this.setState({username:''});
+        }
      }
      onChange = (e)=>{
          console.log('came insdie the con chane event '+ e.target.value)

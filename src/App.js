@@ -4,12 +4,14 @@ import Navbar from './components/layouts/Navbar';
 import Users from './components/users/Users';
 import Search from './components/users/Search';
 import axios from 'axios';
+import Alert from './components/layouts/Alert';
 
 class  App extends Component {
 
   state={
     users:[],
-    loading:false
+    loading:false,
+    alert:null
   }
 
   searchUsers = async  (user)=>{
@@ -25,6 +27,11 @@ class  App extends Component {
     this.setState({users:[], loading:false});
   }
 
+  setAlert = (message, type) => {
+    this.setState({alert:{message, type}})
+    setTimeout(()=> this.setState({alert:null}), 5000);
+  }
+
  /*async componentDidMount(){
    this.setState({loading:true});
    const response = await axios.get('https://api.github.com/users');
@@ -36,7 +43,11 @@ class  App extends Component {
       <div className="App">
         <Navbar/>
         <div className="container">
-          <Search searchUsers={this.searchUsers} clearUsers={this.clearUsers} showClear={this.state.users.length > 0}/>
+          <Alert alert={this.state.alert} />
+          <Search searchUsers={this.searchUsers} 
+                  clearUsers={this.clearUsers} 
+                  setAlert={this.setAlert}
+                  showClear={this.state.users.length > 0}/>
           <Users loading={this.state.loading} users={this.state.users}/>   
         </div>
       </div>
